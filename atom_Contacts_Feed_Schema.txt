@@ -1,0 +1,232 @@
+# RELAX NG Compact Syntax Grammar
+# Description: Google Contacts: feed of contacts
+
+namespace app = "http://www.w3.org/2007/app"
+namespace atom = "http://www.w3.org/2005/Atom"
+namespace gContact = "http://schemas.google.com/contact/2008"
+namespace gd = "http://schemas.google.com/g/2005"
+namespace openSearch = "http://a9.com/-/spec/opensearch/1.1/"
+
+start = contacts_contactFeed | contacts_contactEntry
+
+
+# Describes an author
+
+atom_author = element atom:author { attribute xml:lang { xsd:string }?, (
+    atom_email? &
+    atom_name &
+    atom_uri? ) }
+
+
+# Describes a contact entry
+
+contacts_contactEntry = element atom:entry { attribute gd:etag { xsd:string }?, (
+    app_edited? &
+    atom_content? &
+    atom_id &
+    atom_updated &
+    contacts_contactKind &
+    contacts_contactLink+ &
+    contacts_groupMembershipInfo* &
+    element atom:title { atom_textConstruct } &
+    gdata_deleted? &
+    gdata_email* &
+    gdata_extendedProperty* &
+    gdata_im* &
+    gdata_organization* &
+    gdata_phoneNumber* &
+    gdata_postalAddress* ) }
+
+
+# Describes a contact feed
+
+contacts_contactFeed = element atom:feed { attribute gd:etag { xsd:string }?, (
+    atom_author+ &
+    atom_generator &
+    atom_id &
+    atom_updated &
+    contacts_contactEntry* &
+    contacts_contactKind &
+    contacts_contactLink+ &
+    element atom:title { atom_textConstruct } &
+    opensearch_itemsPerPage &
+    opensearch_startIndex &
+    opensearch_totalResults ) }
+
+
+# Describes a contact kind
+
+contacts_contactKind = element atom:category {
+    attribute scheme { "http://schemas.google.com/g/2005#kind" },
+    attribute term { "http://schemas.google.com/contact/2008#contact" } }
+
+
+# Extends the base Link class with contact extensions
+
+contacts_contactLink = element atom:link {
+    attribute href { xsd:string },
+    attribute length { xsd:long }?,
+    attribute rel { "alternate" | "edit" |
+    "http://schemas.google.com/contacts/2008/rel#edit-photo" |
+    "http://schemas.google.com/contacts/2008/rel#photo" |
+    "http://schemas.google.com/g/2005#batch" |
+    "http://schemas.google.com/g/2005#feed" |
+    "http://schemas.google.com/g/2005#post" | "next" | "previous" | "self" },
+    attribute title { xsd:string }?,
+    attribute type { "application/atom+xml" | "image/*" | "text/html" } }
+
+
+# Describes a content
+
+atom_content = element atom:content {
+    attribute src { xsd:string }?,
+    attribute type { xsd:string }?,
+    attribute xml:lang { xsd:string }?,
+    xsd:string? }
+
+
+# Denotes an entry has been deleted
+
+gdata_deleted = element gd:deleted { empty }
+
+
+# Value of the app:edited tag
+
+app_edited = element app:edited { (xsd:date | xsd:dateTime) }
+
+
+# Describes an author's email address
+
+atom_email = element atom:email { xsd:string }
+
+
+# Describes an email address
+
+gdata_email = element gd:email {
+    attribute address { xsd:string },
+    attribute label { xsd:string }?,
+    attribute primary { xsd:boolean }?,
+    attribute rel { xsd:string }? }
+
+
+# Stores a limited amount of custom data as an auxiliary property of the
+# enclosing entity
+
+gdata_extendedProperty = element gd:extendedProperty {
+    attribute name { xsd:string },
+    attribute realm { xsd:string }?,
+    attribute value { xsd:string }?,
+    anyElement? }
+
+
+# Describes the generator
+
+atom_generator = element atom:generator {
+    attribute uri { xsd:string }?,
+    attribute version { xsd:string }?,
+    xsd:string }
+
+
+# Denotes contact's group membership
+
+contacts_groupMembershipInfo = element gContact:groupMembershipInfo {
+    attribute deleted { xsd:boolean }?,
+    attribute href { xsd:string } }
+
+
+# Describes a unique identifier
+
+atom_id = element atom:id { xsd:string }
+
+
+# Describes an instant messaging address
+
+gdata_im = element gd:im {
+    attribute address { xsd:string },
+    attribute label { xsd:string }?,
+    attribute primary { xsd:boolean }?,
+    attribute protocol { xsd:string }?,
+    attribute rel { xsd:string }? }
+
+
+# Describes the number of items that will be returned per page for paged feeds
+
+opensearch_itemsPerPage = element openSearch:itemsPerPage { xsd:int }
+
+
+# Describes an author's human-readable name
+
+atom_name = element atom:name { xsd:string }
+
+
+# Name of organization
+
+gdata_orgName = element gd:orgName { xsd:string }
+
+
+# Position in organization
+
+gdata_orgTitle = element gd:orgTitle { xsd:string }
+
+
+# Describes an organization (like Company)
+
+gdata_organization = element gd:organization {
+    attribute label { xsd:string }?,
+    attribute primary { xsd:boolean }?,
+    attribute rel { xsd:string }?,
+    ( gdata_orgName? &
+    gdata_orgTitle? ) }
+
+
+# Describes a phone number
+
+gdata_phoneNumber = element gd:phoneNumber {
+    attribute label { xsd:string }?,
+    attribute primary { xsd:boolean }?,
+    attribute rel { xsd:string }?,
+    xsd:string }
+
+
+# Describes a postal address
+
+gdata_postalAddress = element gd:postalAddress {
+    attribute label { xsd:string }?,
+    attribute primary { xsd:boolean }?,
+    attribute rel { xsd:string }?,
+    xsd:string }
+
+
+# Describes the starting index of the contained entries for paged feeds
+
+opensearch_startIndex = element openSearch:startIndex { xsd:int }
+
+
+# Describes a text construct containing either plain text, HTML, or XHTML
+
+atom_textConstruct = attribute src { xsd:string }?,
+    attribute type { xsd:string }?,
+    attribute xml:lang { xsd:string }?,
+    xsd:string?
+
+
+# Describes the total number of results associated with this feed
+
+opensearch_totalResults = element openSearch:totalResults { xsd:int }
+
+
+# Describes a last updated timestamp
+
+atom_updated = element atom:updated { (xsd:date | xsd:dateTime) }
+
+
+# Describes the URI associated with an author
+
+atom_uri = element atom:uri { xsd:string }
+
+# defines any arbitrary XML element
+
+anyElement = element * { (
+    attribute * { text }
+    | text
+    | anyElement )* }

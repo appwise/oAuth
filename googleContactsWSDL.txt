@@ -1,0 +1,95 @@
+components.googleContacts
+Component googleContacts 
+
+
+hierarchy: WEB-INF.cftags.component
+      components.oAuth
+            components.googleContacts
+ 
+path: \components\googleContacts.cfc 
+serializable: Yes  
+properties: 
+  
+methods: convertDate, getLatest, getMyContacts, getValidatedUserInfo, init, insertContact 
+inherited methods: authorizationCode, echo, refreshToken 
+* - private method 
+
+convertDate  
+package date convertDate ( required string date, required numeric offset ) 
+
+Converts your date and time to a Google datetime object. You know, the one with the T and ZULU in it
+
+Output: suppressed
+Parameters:
+   date: string, required, date - The date. 
+   offset: numeric, required, offset - The offset. 
+
+ 
+getLatest  
+remote getLatest ( required date latestDate="12/1/2001", required string access_token, required string GoogleAPI_email ) 
+
+Gets the latest contact information from a date specified. If there is no new information from that date the struct will be empty.
+
+Output: 
+Parameters:
+   latestDate: date, required, latestDate - The latest date from the initial contact draw down using getMyContacts(access_token). You must specify a storage solution which meets the Google TOS for the API. 
+   access_token: string, required, access_token - oAuth access token recieved when user authenticated. Stored as GoogleAPI.ACCESS_TOKEN under the scope of either session or client. 
+   GoogleAPI_email: string, required, GoogleAPI_email - This is the email of the authenticated user 
+
+ 
+getMyContacts  
+remote any getMyContacts ( required string access_token ) 
+
+Draws down the entire available contact list (see Documentation/atom_Contact_Schema.txt). You must specify a storage solution which meets the Google Terms of Service (TOS) for the API.
+
+Output: 
+Parameters:
+   access_token: string, required, access_token - oAuth access token recieved when user authenticated. Stored as GoogleAPI.ACCESS_TOKEN under the scope of either session or client. 
+
+ 
+getValidatedUserInfo  
+remote struct getValidatedUserInfo ( required string access_token, required string Consumer_Key ) 
+
+This returns all the information about the validated user which will allow you to interact with various Google APIs including Calendars API. You must specify a storage solution which meets the Google Terms of Service (TOS) for the API.
+
+Output: 
+Parameters:
+   access_token: string, required, access_token - oAuth access token recieved when user authenticated. Stored as GoogleAPI.ACCESS_TOKEN under the scope of either session or client. 
+   Consumer_Key: string, required, Consumer_Key - Should be a application scoped variable. GET IT HERE: https://accounts.google.com/UpdateDomain 
+
+ 
+init  
+public googleContacts init ( string tzoffset="" ) 
+
+Output: suppressed
+Parameters:
+   tzoffset: string, optional, tzoffset - Timezone offset. Will default to system offset. 
+
+ 
+insertContact  
+remote insertContact ( required string FirstName, required string LastName, string work_city, string work_address1, string work_address2, string work_state, string work_postal_code, string work_country, string work_email, string home_city, string home_address1, string home_address2, string home_state, string home_postal_code, string home_country, string home_email, required string GoogleAPI_email, required string access_token ) 
+
+Adds a contact to the authenticated user's contact list.
+
+Output: 
+Parameters:
+   FirstName: string, required, FirstName - Joe 
+   LastName: string, required, LastName - Smith 
+   work_city: string, optional, work_city - Baltimore 
+   work_address1: string, optional, work_address1 - 57310 Commerce Street 
+   work_address2: string, optional, work_address2 - Suite 1000 
+   work_state: string, optional, work_state - MD 
+   work_postal_code: string, optional, work_postal_code - 12345 
+   work_country: string, optional, work_country - United States 
+   work_email: string, optional, work_email - foo@bigboxcorp.com 
+   home_city: string, optional, home_city - Baltimore 
+   home_address1: string, optional, home_address1 - 123 Main Street 
+   home_address2: string, optional, home_address2 - Apt. 2 
+   home_state: string, optional, home_state - MD 
+   home_postal_code: string, optional, home_postal_code - 12345 
+   home_country: string, optional, home_country - United States 
+   home_email: string, optional, home_email - foo@bar.com 
+   GoogleAPI_email: string, required, GoogleAPI_email - this is the email of the authenticated user 
+   access_token: string, required, access_token - this is the BEARER access_token returned at authentication 
+
+ 

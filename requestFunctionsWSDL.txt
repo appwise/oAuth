@@ -1,0 +1,75 @@
+components.requestFunctions
+Component requestFunctions 
+
+
+hierarchy: WEB-INF.cftags.component
+      components.oAuth
+            components.googleCalendars
+                  components.requestFunctions
+ 
+path: \components\requestFunctions.cfc 
+serializable: Yes  
+Used for creating noonce, signature, timestamp
+ properties: 
+  
+methods: hmac_sha1*, init, nonceCreate, oAuthBaseStringify*, signatureCreate*, timeStampConvert*, URLEncodedFormat_3986* 
+inherited methods: authCalendar, authorizationCode, echo, importEvents, listAllCalendarEvents, refreshToken, reminderCalendarEventInsert, retrieveCalendarList, retrieveCalendarMetaData, URLEncodedFormatRFC3986 
+
+* - private method 
+
+hmac_sha1*  
+private string hmac_sha1 ( required string signKey, required string signMessage, string sFormat="iso-8859-1" ) 
+
+Output: 
+Parameters:
+   signKey: string, required, signKey 
+   signMessage: string, required, signMessage 
+   sFormat: string, optional, sFormat 
+
+ 
+init  
+public init ( ) 
+
+handles the root webservice functions
+
+Output: suppressed
+
+ 
+nonceCreate  
+remote string nonceCreate ( ) 
+
+Output: 
+
+ 
+oAuthBaseStringify*  
+private string oAuthBaseStringify ( required string http_method, required string base_uri, required struct parameters ) 
+
+Output: suppressed
+Parameters:
+   http_method: string, required, http_method 
+   base_uri: string, required, base_uri 
+   parameters: struct, required, parameters 
+
+ 
+signatureCreate*  
+private string signatureCreate ( required string request_url ) 
+
+Output: 
+Parameters:
+   request_url: string, required, request_url 
+
+ 
+timeStampConvert*  
+private numeric timeStampConvert ( ) 
+
+Output: 
+
+ 
+URLEncodedFormat_3986*  
+private string URLEncodedFormat_3986 ( required string url ) 
+
+Output: suppressed
+Parameters:
+   url: string, required, url 
+
+ 

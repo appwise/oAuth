@@ -1,0 +1,134 @@
+components.googleCalendars
+Component googleCalendars 
+
+
+hierarchy: WEB-INF.cftags.component
+      components.oAuth
+            components.googleCalendars
+ 
+path: \components\googleCalendars.cfc 
+serializable: Yes  
+properties: 
+  
+methods: authCalendar, hmac_sha1, importEvents, init, listAllCalendarEvents, oAuthBaseStringify, reminderCalendarEventInsert, retrieveCalendarList, retrieveCalendarMetaData, URLEncodedFormatRFC3986 
+inherited methods: authorizationCode, echo, refreshToken 
+* - private method 
+
+authCalendar  
+remote struct authCalendar ( required string access_token, required string Consumer_Key ) 
+
+Authorizes the use of the Calendar API
+
+Output: 
+Parameters:
+   access_token: string, required, access_token - oAuth access token recieved when user authenticated. Stored as GoogleAPI.ACCESS_TOKEN under the scope of either session or client. 
+   Consumer_Key: string, required, Consumer_Key - Consumer Key available at accounts.google.com/UpdateDomain 
+
+ 
+hmac_sha1  
+package string hmac_sha1 ( required string signKey, required string signMessage, string sFormat="iso-8859-1" ) 
+
+HMAC SHA1 encoding of the string using JAVA. All blogs are telling me that encoding SHA1 with cfencode does not produce an acceptable string for oAuth. We did proove that that is correct.
+
+Output: 
+Parameters:
+   signKey: string, required, signKey 
+   signMessage: string, required, signMessage 
+   sFormat: string, optional, sFormat 
+
+ 
+importEvents  
+remote struct importEvents ( required string access_token, required string API_key, required string Consumer_Key, required string consumer_secret, required string client_secret, string googleapi_id ) 
+
+Pulls down all the events in a authentiacted user's calendar.
+
+Output: 
+Parameters:
+   access_token: string, required, access_token - oAuth access token recieved when user authenticated. Stored as {scope}.GoogleAPI.ACCESS_TOKEN 
+   API_key: string, required, API_key - should be an application scoped variable: GET IT HERE: code.google.com/apis/console 
+   Consumer_Key: string, required, Consumer_Key - should be an application scoped variable: GET IT HERE: https://accounts.google.com/UpdateDomain 
+   consumer_secret: string, required, consumer_secret - should be an application scoped variable: GET IT HERE: https://accounts.google.com/UpdateDomain 
+   client_secret: string, required, client_secret - should be an application scoped variable: GET IT HERE: code.google.com/apis/console 
+   googleapi_id: string, optional, googleapi_id - comes from {scope}.GoogleAPI.VALIDATEDUSERINFO.ID 
+
+ 
+init  
+public googleCalendars init ( string tzoffset="" ) 
+
+Initializes the timezone formatting required of Google
+
+Output: suppressed
+Parameters:
+   tzoffset: string, optional, tzoffset - Timezone offset. Will default to system offset. 
+
+ 
+listAllCalendarEvents  
+remote any listAllCalendarEvents ( required string access_token, required string API_key, required string calendarMeta_id ) 
+
+Lists all events for a particular calendar (GoogleAPI.calendarMeta.id).
+
+Output: 
+Parameters:
+   access_token: string, required, access_token - oAuth access token recieved when user authenticated. Stored as GoogleAPI.ACCESS_TOKEN under the scope of either session or client. 
+   API_key: string, required, API_key - API Key available at code.google.com/apis/console 
+   calendarMeta_id: string, required, calendarMeta_id - as is returned in method googleCalendars.retrieveCalendarMetaData() 
+
+ 
+oAuthBaseStringify  
+package string oAuthBaseStringify ( required string http_method, required string base_uri, required struct parameters ) 
+
+Creates the oAuth Base String for the Signature
+
+Output: suppressed
+Parameters:
+   http_method: string, required, http_method 
+   base_uri: string, required, base_uri 
+   parameters: struct, required, parameters 
+
+ 
+reminderCalendarEventInsert  
+remote any reminderCalendarEventInsert ( required string summary, required string description, required string startDate, required string endDate, required string access_token, required string API_key, required string calendarMeta_id ) 
+
+Inserts a simple reminder based on summary (event title), description
+
+Output: 
+Parameters:
+   summary: string, required, summary 
+   description: string, required, description 
+   startDate: string, required, startDate 
+   endDate: string, required, endDate 
+   access_token: string, required, access_token - oAuth access token recieved when user authenticated. Stored as GoogleAPI.ACCESS_TOKEN under the scope of either session or client. 
+   API_key: string, required, API_key - API Key available at code.google.com/apis/console 
+   calendarMeta_id: string, required, calendarMeta_id - as is returned in method googleCalendars.retrieveCalendarMetaData() 
+
+ 
+retrieveCalendarList  
+remote any retrieveCalendarList ( required string access_token, required string API_key ) 
+
+Pulls the list of authenticated user's current calendars.
+
+Output: 
+Parameters:
+   access_token: string, required, access_token - oAuth access token recieved when user authenticated. Stored as GoogleAPI.ACCESS_TOKEN under the scope of either session or client. 
+   API_key: string, required, API_key - API Key available at code.google.com/apis/console 
+
+ 
+retrieveCalendarMetaData  
+remote struct retrieveCalendarMetaData ( required string access_token, required string API_key ) 
+
+Getting the meta data, particularly GoogleAPI.calendarMeta.id allows you to interact with the cladars (read, write).
+
+Output: 
+Parameters:
+   access_token: string, required, access_token - oAuth access token recieved when user authenticated. Stored as GoogleAPI.ACCESS_TOKEN under the scope of either session or client. 
+   API_key: string, required, API_key - API Key available at code.google.com/apis/console 
+
+ 
+URLEncodedFormatRFC3986  
+package string URLEncodedFormatRFC3986 ( required string url ) 
+
+http://cookbooks.adobe.com/post_URL_encoding_to_RFC_3986-17970.html
+
+Output: suppressed
+Parameters:
+   url: string, required, url 
