@@ -38,7 +38,9 @@
         <cfset application.Client_ID = ''> 
         <cfset application.Client_secret = ''>
         <cfset application.redirect_uri = 'http://yourURL/components/oauth.cfc?method=echo'> 
-        <!---<cfset application.redirect_uri = 'https://www-opensocial.googleusercontent.com/api/people/@me/@self'>---> 
+        <!--- Its possible that Consumer Key and Secret will be depricated---> 
+        <!--- check doc: https://developers.google.com/accounts/docs/OAuth2 --->
+        <!--- Created under the API Access tab in the Google API console --->
         <cfset application.Consumer_Key = ''>
         <cfset application.Consumer_secret = ''>
         <!--- Use API keys to identify your project when you do not need to access user data --->
