@@ -1,3 +1,7 @@
+<!---
+	Written long hand to increase readability.....
+--->
+
 <cfcomponent extends="oAuth" output="no">
 
 	<cffunction name="init" access="public" returnType="googleCalendars" output="false" hint="Initializes the timezone formatting required of Google">
