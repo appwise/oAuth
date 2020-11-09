@@ -3,7 +3,7 @@
 <body>
 		<div>
         	<div id="leftTop">
-                <h2>Google oAuth 2.0 Connector for ColdFusion 8 and 9</h2>
+                <h2>Google oAuth 2.0 Connector for ColdFusion</h2>
                 
                 <div id="footer">
             		<p>This site demonstrates <a href='http://code.google.com/apis/accounts/docs/OAuth2Login.html'>Google's OAuth 2.0 login support</a>. It's a prototype and should be treated that way.</p>
