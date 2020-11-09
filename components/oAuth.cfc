@@ -1,3 +1,7 @@
+<!---
+	Written long hand to increase readability.....
+--->
+
 <cfcomponent displayname="oAuth" >
 
 	<CFFUNCTION NAME="echo" access="remote" returntype="void" output="true" >
