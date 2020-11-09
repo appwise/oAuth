@@ -5,7 +5,7 @@ http://www.epiphantastic.com/cfjson/
 Authors: Jehiah Czebotar (jehiah@gmail.com)
          Thomas Messier  (thomas@epiphantastic.com)
 
-Version: 1.9 February 20, 2008
+Version: 1.9 February 20, 2019
 
 You may use any other serializer.  This part of the application is not sold...
 --->
